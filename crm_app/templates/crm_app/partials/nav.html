@@ -24,7 +24,8 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Contact</a>
                 </li>
-            {% if user.is_authenticated %}
+
+{% if user.is_authenticated %}
 
                 <li class="nav.item">
                     <a class="nav-link" href="">{{ user.fullname }}</a>
