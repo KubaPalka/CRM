@@ -1,0 +1,21 @@
+{% extends 'crm_app/base.html' %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'crm_app:company-all' %}" class="btn btn-outline-secondary">Wszystkie</a>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-secondary">SUSI</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-secondary">Pozostałe</button>
+            </div>
+        </div>
+
+    </div>
+{% block companies %}{% endblock %}
+
+{% endblock %}
