@@ -8,15 +8,8 @@ from . import models
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.EmailField(
-        label='Email',
-        widget=forms.TextInput(attrs={
-            'name': 'username',
-            'placeholder': 'Email'
-        })
-    )
-
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(label='Nazwa użytkownika', widget=forms.TextInput(attrs={'name': 'username'}))
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
 
     class Meta:
         fields = ('username', 'password')

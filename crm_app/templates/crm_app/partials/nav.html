@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg bg-mycolor" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand" href="{% url 'crm_app:main' %}">
-            <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo CRM">
+            <img class="main" src="{% static 'images/logo.png' %}" alt="Logo CRM">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
                     <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Dodaj firmę</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Contact</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Kontakt</a>
                 </li>
 
 {% if user.is_authenticated %}
@@ -32,7 +32,7 @@
                 </li>
 
                 <li class="nav.item">
-                    <a class="nav-link" href="{% url 'crm_app:logout' %}">Logout</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:logout' %}">WYLOGUJ SIĘ</a>
                 </li>
 
                 {% else %}
