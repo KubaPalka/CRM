@@ -1,15 +1,15 @@
 {% extends 'crm_app/company_list.html' %}
 
 {% block companies %}
-    <div class="container d-flex justify-content-center align-items-center">
+    <div class="container">
         {% if companies %}
-        <ul>
-            {% for company in companies %}
-                <li>{{ company.name }}</li>
-            {% endfor %}
-        </ul>
+            <ol>
+                {% for company in companies %}
+                    <li>{{ company.name }}, NIP: {{ company.nip }}</li>
+                {% endfor %}
+            </ol>
         {% else %}
-        <h2>W bazie nie znaleziono żadnego rekordu!</h2>
-    {% endif %}
+            <h2>W bazie nie znaleziono żadnego rekordu!</h2>
+        {% endif %}
     </div>
-    {% endblock %}
+{% endblock %}

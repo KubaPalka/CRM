@@ -12,22 +12,27 @@ class MainPageView(View):
     def get(self, request):
         return render(request, 'crm_app/main.html')
 
+
 class CompanyListView(View):
     def get(self, request):
         return render(request, 'crm_app/company_list.html')
+
 
 class CompanyListAllView(View):
     def get(self, request):
         companies = Company.objects.all()
         return render(request, 'crm_app/company_list_all.html', {'companies': companies})
 
+
 class AddCompanyView(View):
     def get(self, request):
         return render(request, 'crm_app/add_company.html')
 
+
 class DataImportExportView(View):
     def get(self, request):
         return render(request, 'crm_app/import_export.html')
+
 
 def login_user_view(request):
     if request.method == 'POST':
@@ -46,6 +51,7 @@ def login_user_view(request):
     else:
         form = forms.LoginForm()
     return render(request, 'crm_app/login.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)
