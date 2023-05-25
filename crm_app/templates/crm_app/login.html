@@ -17,6 +17,11 @@
         <script src="{% static 'scripts/bootstrap.bundle.min.js' %}" async defer></script>
     {% endblock %}
 </head>
+<style>
+    body {
+    background-color: #E6E6FA;
+}
+</style>
 <body>
 <div class="container">
     <br><br><br><br>
@@ -34,7 +39,7 @@
                     <br>
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button type="submit" class="btn btn-danger">Login</button>
+                    <button type="submit" class="btn btn-danger">Zaloguj</button>
 
                 </form>
             </div>

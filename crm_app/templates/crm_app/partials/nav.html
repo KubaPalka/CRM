@@ -22,11 +22,14 @@
                     <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Dodaj firmę</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Kontakt</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Wyszukaj</a>
                 </li>
-
-{% if user.is_authenticated %}
-
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Import/Export</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav ms-auto">
                 <li class="nav.item">
                     <a class="nav-link" href="">{{ user.fullname }}</a>
                 </li>
@@ -35,14 +38,15 @@
                     <a class="nav-link text-white" href="{% url 'crm_app:logout' %}">WYLOGUJ SIĘ</a>
                 </li>
 
-                {% else %}
+            {% else %}
                 <li class="nav.item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">ZALOGUJ SIĘ</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:login' %}">ZALOGUJ SIĘ</a>
                 </li>
 
-                {% endif %}
+            {% endif %}
 
             </ul>
         </div>
     </div>
 </nav>
+main

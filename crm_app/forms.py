@@ -15,5 +15,5 @@ class LoginForm(AuthenticationForm):
         fields = ('username', 'password')
 
     error_messages = {
-        "invalid_login": "Email i hasło nie pasują do żadnego użytkownika."
+        "invalid_login": "Email lub/i hasło nie pasują do żadnego użytkownika."
     }
