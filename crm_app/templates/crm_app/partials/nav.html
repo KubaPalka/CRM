@@ -13,34 +13,32 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="{% url 'crm_app:main' %}">Home</a>
+                    <a class="nav-link active text-white" aria-current="page" href="{% url 'crm_app:main' %}">Strona
+                        główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Lista firm</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:company-list' %}">Lista firm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Dodaj firmę</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:add-company' %}">Dodaj firmę</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">Kontakt</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:import-export' %}">Import/Export</a>
                 </li>
-
-{% if user.is_authenticated %}
-
-                <li class="nav.item">
-                    <a class="nav-link" href="">{{ user.fullname }}</a>
-                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav ms-auto">
 
                 <li class="nav.item">
                     <a class="nav-link text-white" href="{% url 'crm_app:logout' %}">WYLOGUJ SIĘ</a>
                 </li>
 
-                {% else %}
+            {% else %}
                 <li class="nav.item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:main' %}">ZALOGUJ SIĘ</a>
+                    <a class="nav-link text-white" href="{% url 'crm_app:login' %}">ZALOGUJ SIĘ</a>
                 </li>
 
-                {% endif %}
+            {% endif %}
 
             </ul>
         </div>

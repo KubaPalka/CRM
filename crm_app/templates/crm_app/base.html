@@ -16,20 +16,18 @@
         <script src="{% static 'scripts/bootstrap.bundle.min.js' %}" async defer></script>
     {% endblock %}
 </head>
+<style>
+    body {
+    background-color: #E6E6FA;
+}
+</style>
 <body>
-
 {% include 'crm_app/partials/nav.html' %}
 {% include 'crm_app/partials/messages.html' %}
-<div class="container">
 
-    <div class="row"><h1>Zaloguj się</h1>
-    <div class="col-12">
 
-        <div class="col-12">
-            {% block content %}<h2>tekst z templatki BASE</h2>{% endblock %}
-        </div>
-    </div>
-    </div>
-</div>
+                {% block content %}<h2>Tutaj będzie zawartość strony</h2>{% endblock %}
+
+
 </body>
 </html>

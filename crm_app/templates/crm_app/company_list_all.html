@@ -1,0 +1,15 @@
+{% extends 'crm_app/company_list.html' %}
+
+{% block companies %}
+    <div class="container">
+        {% if companies %}
+            <ol>
+                {% for company in companies %}
+                    <li>{{ company.name }}, NIP: {{ company.nip }}</li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <h2>W bazie nie znaleziono żadnego rekordu!</h2>
+        {% endif %}
+    </div>
+{% endblock %}
