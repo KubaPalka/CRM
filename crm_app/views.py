@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company
+from .forms import SelectCompanyForm
 
 
 class MainPageView(View):
@@ -15,7 +16,23 @@ class MainPageView(View):
 
 class CompanyListView(View):
     def get(self, request):
-        return render(request, 'crm_app/company_list.html')
+        form = SelectCompanyForm()
+        return render(request, 'crm_app/company_list.html', {'form': form})
+
+    def post(self, request):
+        form = SelectCompanyForm(request.POST)
+        if form.is_valid():
+            choice = form.cleaned_data.get('choice')
+            if choice == '1':
+                companies = Company.objects.all().order_by('name')
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+            elif choice == '2':
+                companies = Company.objects.filter(score__gte= 67).filter(income__gte=4000000)
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+            elif choice == '3':
+                companies = Company.objects.filter(score__lt=67)
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+        return render(request, 'crm_app/company_list.html', {'form': form})
 
 
 class CompanyListAllView(View):

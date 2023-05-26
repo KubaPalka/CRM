@@ -17,3 +17,11 @@ class LoginForm(AuthenticationForm):
     error_messages = {
         "invalid_login": "Email lub/i hasło nie pasują do żadnego użytkownika."
     }
+
+class SelectCompanyForm(forms.Form):
+    OPTIONS = (
+        (1, "Wszystkie"),
+        (2, "SUSI"),
+        (3, "Pozostałe")
+    )
+    choice = forms.ChoiceField(label="Wybierz:", choices=OPTIONS, widget=forms.RadioSelect)
