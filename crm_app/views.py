@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -7,14 +6,15 @@ from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company
 from .forms import SelectCompanyForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 
-class MainPageView(View):
+class MainPageView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/main.html')
 
 
-class CompanyListView(View):
+class CompanyListView(LoginRequiredMixin, View):
     def get(self, request):
         form = SelectCompanyForm()
         return render(request, 'crm_app/company_list.html', {'form': form})
@@ -35,20 +35,24 @@ class CompanyListView(View):
         return render(request, 'crm_app/company_list.html', {'form': form})
 
 
-class CompanyListAllView(View):
+class CompanyListAllView(LoginRequiredMixin, View):
     def get(self, request):
         companies = Company.objects.all()
         return render(request, 'crm_app/company_list_all.html', {'companies': companies})
 
 
-class AddCompanyView(View):
+class AddCompanyView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/add_company.html')
 
 
-class DataImportExportView(View):
+class DataImportExportView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/import_export.html')
+
+class ApplicationListView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'crm_app/applications.html')
 
 
 def login_user_view(request):

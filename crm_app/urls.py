@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('company_list/', views.CompanyListView.as_view(), name='company-list'),
     path('add_company/', views.AddCompanyView.as_view(), name='add-company'),
+    path('applications/', views.ApplicationListView.as_view(), name='application-list'),
     path('import_export/', views.DataImportExportView.as_view(), name='import-export'),
 
 ]
