@@ -19,8 +19,8 @@
 </head>
 <style>
     body {
-    background-color: #E6E6FA;
-}
+        background-color: #E6E6FA;
+    }
 </style>
 <body>
 <div class="container">
@@ -29,22 +29,22 @@
         <div class="col-5"></div>
         <div class="col-2"><img src="{% static 'images/logo.png' %}" alt="crm logo"></div>
         <div class="5"></div>
-        </div>
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-                <form action="" method="post">
-                    <br>
-                    <h2>Zaloguj się do CRM:</h2>
-                    <br>
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-danger">Zaloguj</button>
-
-                </form>
-            </div>
-            <div class="col-3"></div>
-        </div>
     </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form action="" method="post">
+                <br>
+                <h2>Zaloguj się do CRM:</h2>
+                <br>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-danger">Zaloguj</button>
+
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
 </body>
 </html>

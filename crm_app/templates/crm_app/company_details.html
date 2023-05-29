@@ -1,0 +1,37 @@
+{% extends 'crm_app/base.html' %}
+{% block title %}szczegóły{% endblock %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        <div class="row">
+
+            <ul>
+                <br>
+                <br>
+
+                <li><h4>Nazwa: {{ company.name }}</h4></li>
+                <li><h4>NIP: {{ company.nip }}</h4></li>
+                <li><h4>SUSI score: {{ company.score }}</h4></li>
+                <li><h4>Roczny przychód: {{ company.income }}</h4></li>
+                <li><h4>Adres: {{ company.address }}</h4></li>
+                <li><h4>WWW: <a href="{{ company.url_site }}">{{ company.url_site }}</a></h4></li>
+                <li><h4>Dodano: {{ company.date_added }}</h4></li>
+                <li><h4>Ostatnia aktualizacja: {{ company.updated }}</h4></li>
+                <li><h4>Opis: {{ company.description }}</h4></li>
+                <br>
+            </ul>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn btn-danger">Edytuj</button>
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-danger">Usuń</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
