@@ -13,7 +13,7 @@ class Company(models.Model):
     income = models.IntegerField()
     date_added = models.DateField(auto_now_add=True)
     description = models.TextField()
-    updated = models.DateField()
+    updated = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name

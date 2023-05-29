@@ -6,8 +6,10 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company
-from .forms import SelectCompanyForm
+from .forms import SelectCompanyForm, CompanyForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
 
 class MainPageView(LoginRequiredMixin, View):
@@ -47,10 +49,15 @@ class CompanyDetailsView(LoginRequiredMixin, View):
         return render(request, 'crm_app/company_details.html', {'company': company})
 
 
-class AddCompanyView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'crm_app/add_company.html')
+class CompanyCreate(LoginRequiredMixin, CreateView):
+    model = Company
+    form_class = CompanyForm
+    success_url = reverse_lazy('crm_app:company-list')
 
+
+class SearchCompanyView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'crm_app/search_company.html')
 
 class DataImportExportView(LoginRequiredMixin, View):
     def get(self, request):
