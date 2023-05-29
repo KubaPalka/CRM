@@ -8,7 +8,8 @@ class Company(models.Model):
     nip = models.CharField(unique=True, validators=[validate_nip_number], help_text='wpisz NIP bez myślników')
     address = models.CharField(max_length=128)
     url_site = models.URLField(max_length=64)
-    score = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], help_text='wartość musi być z przedziału 0-100')
+    score = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)],
+                                     help_text='wartość musi być z przedziału 0-100')
     income = models.IntegerField()
     date_added = models.DateField(auto_now_add=True)
     description = models.TextField()

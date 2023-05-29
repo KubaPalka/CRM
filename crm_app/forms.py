@@ -1,10 +1,9 @@
 from django import forms
-from django.contrib.auth import get_user_model
+
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
 from . import models
-
 
 
 class LoginForm(AuthenticationForm):
@@ -17,6 +16,7 @@ class LoginForm(AuthenticationForm):
     error_messages = {
         "invalid_login": "Email lub/i hasło nie pasują do żadnego użytkownika."
     }
+
 
 class SelectCompanyForm(forms.Form):
     OPTIONS = (

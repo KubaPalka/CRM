@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -25,20 +26,25 @@ class CompanyListView(LoginRequiredMixin, View):
             choice = form.cleaned_data.get('choice')
             if choice == '1':
                 companies = Company.objects.all().order_by('name')
-                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+                no_of_companies = companies.count()
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies,
+                                                                     'no_of_companies': no_of_companies})
             elif choice == '2':
-                companies = Company.objects.filter(score__gte= 67).filter(income__gte=4000000)
-                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+                companies = Company.objects.filter(score__gte=67, income__gte=4000000)
+                no_of_companies = companies.count()
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies,
+                                                                     'no_of_companies': no_of_companies})
             elif choice == '3':
-                companies = Company.objects.filter(score__lt=67)
-                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies})
+                companies = Company.objects.filter(Q(score__lt=67) | Q(income__lt=4000000))
+                no_of_companies = companies.count()
+                return render(request, 'crm_app/company_list.html', {'form': form, 'companies': companies,
+                                                                     'no_of_companies': no_of_companies})
         return render(request, 'crm_app/company_list.html', {'form': form})
 
-
-class CompanyListAllView(LoginRequiredMixin, View):
-    def get(self, request):
-        companies = Company.objects.all()
-        return render(request, 'crm_app/company_list_all.html', {'companies': companies})
+class CompanyDetailsView(LoginRequiredMixin, View):
+    def get(self, request, company_id):
+        company = Company.objects.get(pk=company_id)
+        return render(request, 'crm_app/company_details.html', {'company': company})
 
 
 class AddCompanyView(LoginRequiredMixin, View):
@@ -49,6 +55,7 @@ class AddCompanyView(LoginRequiredMixin, View):
 class DataImportExportView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/import_export.html')
+
 
 class ApplicationListView(LoginRequiredMixin, View):
     def get(self, request):

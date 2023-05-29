@@ -18,15 +18,21 @@
 </head>
 <style>
     body {
-    background-color: #E6E6FA;
-}
+        background-color: #E6E6FA;
+    }
 </style>
 <body>
 {% include 'crm_app/partials/nav.html' %}
 {% include 'crm_app/partials/messages.html' %}
 
 
-                {% block content %}<h2>Tutaj będzie zawartość strony</h2>{% endblock %}
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        <h2>Tutaj będzie zawartość strony</h2>
+    </div>
+
+{% endblock %}
 
 
 </body>
