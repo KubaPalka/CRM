@@ -17,3 +17,18 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Person(models.Model):
+    full_name = models.CharField(max_length=64)
+    email = models.EmailField(blank=True, default=None)
+    phone = models.CharField(max_length=16)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.full_name
+
+class Branch(models.Model):
+    name = models.CharField(max_length=32)
+    companies = models.ManyToManyField(Company, related_name='branches')
+

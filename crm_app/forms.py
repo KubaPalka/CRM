@@ -26,6 +26,7 @@ class SelectCompanyForm(forms.Form):
     )
     choice = forms.ChoiceField(label="Wybierz:", choices=OPTIONS, widget=forms.RadioSelect)
 
+
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company

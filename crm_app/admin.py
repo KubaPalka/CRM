@@ -6,3 +6,6 @@ from . import models
 class CompanyAdmin(admin.ModelAdmin):
     model = models.Company
 
+@admin.register(models.Person)
+class PersonAdmin(admin.ModelAdmin):
+    model = models.Person

@@ -43,6 +43,7 @@ class CompanyListView(LoginRequiredMixin, View):
                                                                      'no_of_companies': no_of_companies})
         return render(request, 'crm_app/company_list.html', {'form': form})
 
+
 class CompanyDetailsView(LoginRequiredMixin, View):
     def get(self, request, company_id):
         company = Company.objects.get(pk=company_id)
@@ -58,6 +59,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
 class SearchCompanyView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/search_company.html')
+
 
 class DataImportExportView(LoginRequiredMixin, View):
     def get(self, request):
