@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company
@@ -14,6 +14,7 @@ from django.views.generic.edit import CreateView
 
 class MainPageView(LoginRequiredMixin, View):
     def get(self, request):
+
         return render(request, 'crm_app/main.html')
 
 
@@ -46,14 +47,33 @@ class CompanyListView(LoginRequiredMixin, View):
 
 class CompanyDetailsView(LoginRequiredMixin, View):
     def get(self, request, company_id):
-        company = Company.objects.get(pk=company_id)
-        return render(request, 'crm_app/company_details.html', {'company': company})
+        try:
+            company = Company.objects.get(pk=company_id)
+            return render(request, 'crm_app/company_details.html', {'company': company})
+        except Company.DoesNotExist:
+            return render(request, 'crm_app/company_details.html')
 
 
 class CompanyCreate(LoginRequiredMixin, CreateView):
     model = Company
     form_class = CompanyForm
     success_url = reverse_lazy('crm_app:company-list')
+
+class CompanyEditView(View):
+    def get(self, request, company_id):
+        try:
+            company = Company.objects.get(pk=company_id)
+            return render(request, 'crm_app/company_edit.html', {'company': company})
+        except Company.DoesNotExist:
+            return render(request, 'crm_app/company_edit.html')
+
+class CompanyDeleteView(View):
+    def get(self, request, company_id):
+        try:
+            company = Company.objects.get(pk=company_id)
+            return render(request, 'crm_app/company_delete.html', {'company': company})
+        except Company.DoesNotExist:
+            return render(request, 'crm_app/company_delete.html')
 
 
 class SearchCompanyView(LoginRequiredMixin, View):
