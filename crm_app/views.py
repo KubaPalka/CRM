@@ -52,10 +52,10 @@ class CompanyDetailsView(LoginRequiredMixin, View):
             company = Company.objects.get(pk=company_id)
             branches = company.branches.all()
             try:
-                person = Person.objects.get(pk=company_id)
+                persons = Person.objects.filter(company_id=company_id)
             except Person.DoesNotExist:
-                person = None
-            return render(request, 'crm_app/company_details.html', {'company': company, 'person': person,
+                persons = None
+            return render(request, 'crm_app/company_details.html', {'company': company, 'persons': persons,
                                                                     'branches': branches})
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_details.html')

@@ -30,9 +30,9 @@ class SelectCompanyForm(forms.Form):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'nip', 'address', 'url_site', 'score', 'income', 'description']
+        fields = ['name', 'nip', 'address', 'url_site', 'score', 'income', 'legal_form', 'description']
         labels = {'name': 'Nazwa', 'nip': 'NIP', 'address': 'Adres', 'url_site': 'WWW',
-                  'score': 'Punktacja SUSI', 'income': 'Przychód', 'description': 'Opis'}
+                  'score': 'Punktacja SUSI', 'income': 'Przychód', 'legal_form': 'Forma prawna', 'description': 'Opis'}
 
 
 class PersonForm(forms.ModelForm):

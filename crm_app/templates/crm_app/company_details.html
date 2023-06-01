@@ -16,6 +16,7 @@
 
                 <li><h4>Nazwa: {{ company.name }}</h4></li>
                 <li><h4>NIP: {{ company.nip }}</h4></li>
+                <li><h4>Forma prawna: {{ company.legal_form }}</h4></li>
                 <li><h4>SUSI score: {{ company.score }}</h4></li>
                 <li><h4>Roczny przychód: {{ company.income }}</h4></li>
                 <li><h4>Adres: {{ company.address }}</h4></li>
@@ -24,9 +25,9 @@
                 <li><h4>Ostatnia aktualizacja: {{ company.updated }}</h4></li>
                 <li><h4>Opis: {{ company.description }}</h4></li>
 
-                <li><h4>Osoba do kontaktu: {% if not person %}
-            {% else %}{{ person.full_name }}, mail: {{ person.email }},
-                    telefon: {{ person.phone }}{% endif %}</h4></li>
+                <li><h4>Osoba do kontaktu: {% if not persons %}
+            {% else %}{% for person in persons %}{{ person.full_name }}, mail: {{ person.email }},
+                telefon: {{ person.phone }}, {% endfor %}{% endif %}</h4></li>
 
                 <li><h4>Branża: {% for branch in branches %}{{ branch.name }}, {% endfor %}</h4></li>
                 <br>

@@ -12,6 +12,7 @@ class Company(models.Model):
     score = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)],
                                      help_text='wartość musi być z przedziału 0-100')
     income = models.IntegerField()
+    legal_form = models.ForeignKey('LegalForm', on_delete=models.CASCADE)
     date_added = models.DateField(auto_now_add=True)
     description = models.TextField()
     updated = models.DateField(auto_now=True)
@@ -43,7 +44,7 @@ class Branch(models.Model):
         ('usługi', 'usługi'),
         ('inne', 'inne')
     )
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, choices=OPTIONS)
     companies = models.ManyToManyField(Company, related_name='branches')
 
     def __str__(self):
@@ -63,7 +64,7 @@ class LegalForm(models.Model):
         ('wspólnota', 'wspólnota'),
         ('inna', 'inna')
     )
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, choices=OPTIONS)
 
     def __str__(self):
         return self.name
