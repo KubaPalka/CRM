@@ -40,3 +40,4 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = {'full_name', 'email', 'phone'}
         labels = {'full_name': 'Nazwisko i imię', 'email': 'Email', 'phone': 'Telefon'}
+

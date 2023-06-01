@@ -1,3 +1,24 @@
 {% extends 'crm_app/base.html' %}
 {% block title %}strona główna{% endblock %}
 
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        <br>
+        <br>
+        {% if companies %}
+            <ul style="list-style: none">
+                <h3><i>Firmy dodane w ostatnim tygodniu: {{ no_of_companies }}</i></h3>
+                <br>
+                {% for company in companies %}
+                    <li><a href="{% url 'crm_app:company-details' company_id=company.id %}">
+                        <button type="button" class="btn btn-outline-secondary">Szczegóły</button>
+                    </a><b>         {{ company.name }}</b>, NIP: {{ company.nip }}, SCORE: {{ company.score }},
+                        Przychód: {{ company.income }}</li>
+                    {% empty %}
+                    <li>Brak firm</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
+
