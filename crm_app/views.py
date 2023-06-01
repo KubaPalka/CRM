@@ -5,11 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from crm_app import forms
-from .models import Company
-from .forms import SelectCompanyForm, CompanyForm
+from .models import Company, Person, Branch
+from .forms import SelectCompanyForm, CompanyForm, PersonForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+
 
 
 class MainPageView(LoginRequiredMixin, View):
@@ -49,9 +50,16 @@ class CompanyDetailsView(LoginRequiredMixin, View):
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
-            return render(request, 'crm_app/company_details.html', {'company': company})
+            branches = company.branches.all()
+            try:
+                person = Person.objects.get(pk=company_id)
+            except Person.DoesNotExist:
+                person = None
+            return render(request, 'crm_app/company_details.html', {'company': company, 'person': person,
+                                                                    'branches': branches})
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_details.html')
+
 
 
 class CompanyCreate(LoginRequiredMixin, CreateView):
@@ -79,6 +87,26 @@ class CompanyDeleteView(View):
 class SearchCompanyView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'crm_app/search_company.html')
+
+class AddPersonView(LoginRequiredMixin, View):
+    def get(self, request, company_id):
+        company = Company.objects.get(pk=company_id)
+        form = PersonForm()
+        return render(request, 'crm_app/add_person.html', {'company': company, 'form': form})
+    def post(self, request, company_id):
+        company = Company.objects.get(pk=company_id)
+        form = PersonForm(request.POST)
+        if form.is_valid():
+            full_name = form.cleaned_data.get('full_name')
+            email = form.cleaned_data.get('email')
+            phone = form.cleaned_data.get('phone')
+            Person.objects.create(full_name=full_name, email=email, phone=phone, company_id=company_id)
+            msg = 'Pomyślnie dodano osobę do kontaktu.'
+            return render(request, 'crm_app/add_person.html', {'company': company, 'form': form, 'msg': msg})
+        return render(request, 'crm_app/add_person.html', {'company': company, 'form': form})
+
+
+
 
 
 class DataImportExportView(LoginRequiredMixin, View):

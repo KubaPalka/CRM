@@ -21,3 +21,7 @@ class BranchAdmin(admin.ModelAdmin):
 class ApplicationAdmin(admin.ModelAdmin):
     model = models.Application
 
+@admin.register(models.LegalForm)
+class LegalFormAdmin(admin.ModelAdmin):
+    model = models.LegalForm
+

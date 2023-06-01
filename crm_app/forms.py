@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from . import models
-from .models import Company
+from .models import Company, Person
 
 
 class LoginForm(AuthenticationForm):
@@ -33,3 +33,10 @@ class CompanyForm(forms.ModelForm):
         fields = ['name', 'nip', 'address', 'url_site', 'score', 'income', 'description']
         labels = {'name': 'Nazwa', 'nip': 'NIP', 'address': 'Adres', 'url_site': 'WWW',
                   'score': 'Punktacja SUSI', 'income': 'Przychód', 'description': 'Opis'}
+
+
+class PersonForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = {'full_name', 'email', 'phone'}
+        labels = {'full_name': 'Nazwisko i imię', 'email': 'Email', 'phone': 'Telefon'}

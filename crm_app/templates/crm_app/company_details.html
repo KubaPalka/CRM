@@ -23,21 +23,32 @@
                 <li><h4>Dodano: {{ company.date_added }}</h4></li>
                 <li><h4>Ostatnia aktualizacja: {{ company.updated }}</h4></li>
                 <li><h4>Opis: {{ company.description }}</h4></li>
+
+                <li><h4>Osoba do kontaktu: {% if not person %}
+            {% else %}{{ person.full_name }}, mail: {{ person.email }},
+                    telefon: {{ person.phone }}{% endif %}</h4></li>
+
+                <li><h4>Branża: {% for branch in branches %}{{ branch.name }}, {% endfor %}</h4></li>
                 <br>
             </ul>
         </div>
     </div>
     <div class="container d-flex justify-content-center align-items-center mt-4">
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <a href="{% url 'crm_app:edit-company' company_id=company.id %}">
                     <button type="submit" class="btn btn-danger">Edytuj</button></a>
             </div>
-            <div class="col-6">
+             <div class="col-4">
+                <a href="{% url 'crm_app:add-person' company_id=company.id %}">
+                    <button type="submit" class="btn btn-danger">Dodaj kontakt</button></a>
+            </div>
+            <div class="col-4">
                 <a href="{% url 'crm_app:delete-company' company_id=company.id %}">
                     <button type="submit" class="btn btn-danger">Usuń</button></a>
             </div>
         </div>
-    </div>
 {% endif %}
+    </div>
+
 {% endblock %}

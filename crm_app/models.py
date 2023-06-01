@@ -43,7 +43,7 @@ class Branch(models.Model):
         ('usługi', 'usługi'),
         ('inne', 'inne')
     )
-    name = models.CharField(max_length=32, choices=OPTIONS)
+    name = models.CharField(max_length=32)
     companies = models.ManyToManyField(Company, related_name='branches')
 
     def __str__(self):
@@ -63,7 +63,7 @@ class LegalForm(models.Model):
         ('wspólnota', 'wspólnota'),
         ('inna', 'inna')
     )
-    name = models.CharField(max_length=32, choices=OPTIONS)
+    name = models.CharField(max_length=32)
 
     def __str__(self):
         return self.name
@@ -115,5 +115,3 @@ class Application(models.Model):
 
     def __str__(self):
         return self.app_number
-
-
