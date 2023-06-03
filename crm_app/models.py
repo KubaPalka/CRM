@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from .validators import validate_nip_number
 from django.utils import timezone
+
 
 
 class Company(models.Model):
@@ -16,7 +18,7 @@ class Company(models.Model):
     date_added = models.DateField(auto_now_add=True)
     description = models.TextField()
     updated = models.DateField(auto_now=True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
@@ -110,9 +112,10 @@ class Application(models.Model):
     panel_type = models.CharField(max_length=32, choices=OPTIONS)
     payment = models.CharField(max_length=32, choices=PAYMENTS)
     status = models.CharField(max_length=16, choices=STATUS)
-    date_added = models.DateField(default=timezone.now)
-    updated = models.DateField(auto_now=True)
+    date_added = models.DateField(auto_now_add=True)
+    updated = models.DateField(default=timezone.now)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.app_number

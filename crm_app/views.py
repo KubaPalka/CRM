@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from crm_app import forms
-from .models import Company, Person, Branch
-from .forms import SelectCompanyForm, CompanyForm, PersonForm
+from .models import Company, Person, Branch, Application
+from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -66,13 +66,9 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     model = Company
     form_class = CompanyForm
     success_url = reverse_lazy('crm_app:company-list')
-
-
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Company, Person
-from .forms import CompanyForm, PersonForm
-
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class CompanyEditView(View):
     def get(self, request, company_id):
@@ -159,10 +155,14 @@ class DataImportExportView(LoginRequiredMixin, View):
         return render(request, 'crm_app/import_export.html')
 
 
-class ApplicationListView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'crm_app/applications.html')
+class ApplicationCreate(LoginRequiredMixin, CreateView):
+    model = Application
+    form_class = ApplicationForm
+    success_url = reverse_lazy('crm_app:application-list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 def login_user_view(request):
     if request.method == 'POST':
