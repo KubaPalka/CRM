@@ -66,9 +66,11 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     model = Company
     form_class = CompanyForm
     success_url = reverse_lazy('crm_app:company-list')
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
 
 class CompanyEditView(View):
     def get(self, request, company_id):
@@ -155,14 +157,48 @@ class DataImportExportView(LoginRequiredMixin, View):
         return render(request, 'crm_app/import_export.html')
 
 
+class ApplicationListView(LoginRequiredMixin, View):
+    def get(self, request):
+        applications = Application.objects.all()
+        no_of_applications = applications.count()
+        return render(request, 'crm_app/application_list.html', {'applications': applications,
+                                                                 'no_of_applications': no_of_applications})
+
+
 class ApplicationCreate(LoginRequiredMixin, CreateView):
     model = Application
     form_class = ApplicationForm
-    success_url = reverse_lazy('crm_app:application-list')
+    success_url = reverse_lazy('crm_app:add-application')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class ApplicationDetailsView(LoginRequiredMixin, View):
+    def get(self, request, application_id):
+        application = Application.objects.get(pk=application_id)
+        return render(request, 'crm_app/application_details.html', {'application': application})
+
+
+class ApplicationEditView(LoginRequiredMixin, View):
+    def get(self, request, application_id):
+        try:
+            application = Application.objects.get(pk=application_id)
+            application_form = ApplicationForm(instance=application)
+            return render(request, 'crm_app/edit_application.html', {'application_form': application_form,
+                                                                     'application': application})
+        except Application.DoesNotExist:
+            return render(request, 'crm_app/edit_application.html')
+
+    def post(self, request, application_id):
+        application = Application.objects.get(pk=application_id)
+        application_form = ApplicationForm(request.POST, instance=application)
+        if application_form.is_valid():
+            application_form.save()
+            return redirect('crm_app:application-details', application_id=application.id)
+        return render(request, 'crm_app/company_edit.html', {'application_form': application_form})
+
 
 def login_user_view(request):
     if request.method == 'POST':

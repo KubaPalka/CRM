@@ -13,7 +13,8 @@
                     <li><a href="{% url 'crm_app:company-details' company_id=company.id %}">
                         <button type="button" class="btn btn-outline-secondary">Szczegóły</button>
                     </a><b>         {{ company.name }}</b>, NIP: {{ company.nip }}, SCORE: {{ company.score }},
-                        Przychód: {{ company.income }}</li>
+                        Przychód: {{ company.income }}, <b>Dodał:  </b><i>{{ company.user.username }},
+                            {{ company.date_added }}</i></li>
                     {% empty %}
                     <li>Brak firm</li>
                 {% endfor %}

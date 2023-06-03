@@ -15,7 +15,11 @@ urlpatterns = [
     path('add_person/<int:company_id>/', views.AddPersonView.as_view(), name='add-person'),
     path('edit_person/<int:company_id>/', views.PersonEditView.as_view(), name='edit-person'),
     path('search_company/', views.SearchCompanyView.as_view(), name="search-company"),
-    path('applications/', views.ApplicationCreate.as_view(), name='application-list'),
+    path('applications/', views.ApplicationListView.as_view(), name='application-list'),
+    path('application_details/<int:application_id>/', views.ApplicationDetailsView.as_view(),
+         name='application-details'),
+    path('add_application/', views.ApplicationCreate.as_view(), name='add-application'),
+    path('edit_application/<int:application_id>/', views.ApplicationEditView.as_view(), name='edit-application'),
     path('import_export/', views.DataImportExportView.as_view(), name='import-export'),
 
 ]
