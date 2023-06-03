@@ -9,7 +9,7 @@ from .models import Company, Person, Branch
 from .forms import SelectCompanyForm, CompanyForm, PersonForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from datetime import date, timedelta
 
 
@@ -78,8 +78,8 @@ class CompanyEditView(View):
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
-            form = CompanyForm(instance=company)
-            return render(request, 'crm_app/company_edit.html', {'form': form})
+            company_form = CompanyForm(instance=company)
+            return render(request, 'crm_app/company_edit.html', {'company_form': company_form, 'company': company})
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_edit.html')
 
@@ -128,6 +128,30 @@ class AddPersonView(LoginRequiredMixin, View):
             msg = 'Pomyślnie dodano osobę do kontaktu.'
             return render(request, 'crm_app/add_person.html', {'company': company, 'form': form, 'msg': msg})
         return render(request, 'crm_app/add_person.html', {'company': company, 'form': form})
+
+
+class PersonEditView(LoginRequiredMixin, View):
+    def get(self, request, company_id):
+        try:
+            company = Company.objects.get(pk=company_id)
+            persons = Person.objects.filter(company_id=company_id)
+            for person in persons:
+                form = PersonForm(instance=person)
+                return render(request, 'crm_app/person_edit.html', {'form': form, 'company': company,
+                                                                    'persons': persons})
+        except Person.DoesNotExist:
+            persons = None
+            return render(request, 'crm_app/person_edit.html', {'persons': persons})
+        return render(request, 'crm_app/person_edit.html')
+
+    def post(self, request, company_id):
+        persons = Person.objects.filter(company_id=company_id)
+        for person in persons:
+            form = PersonForm(request.POST, instance=person)
+            if form.is_valid():
+                form.save()
+                return redirect('crm_app:company-details', company_id=company_id)
+        return render(request, 'crm_app/company_details.html')
 
 
 class DataImportExportView(LoginRequiredMixin, View):
