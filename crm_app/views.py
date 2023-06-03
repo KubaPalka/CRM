@@ -68,13 +68,28 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('crm_app:company-list')
 
 
-class CompanyEditView(LoginRequiredMixin, View):
+from django.shortcuts import render, redirect
+from django.views import View
+from .models import Company, Person
+from .forms import CompanyForm, PersonForm
+
+
+class CompanyEditView(View):
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
-            return render(request, 'crm_app/company_edit.html', {'company': company})
+            form = CompanyForm(instance=company)
+            return render(request, 'crm_app/company_edit.html', {'form': form})
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_edit.html')
+
+    def post(self, request, company_id):
+        company = Company.objects.get(pk=company_id)
+        company_form = CompanyForm(request.POST, instance=company)
+        if company_form.is_valid():
+            company_form.save()
+            return redirect('crm_app:company-details', company_id=company.id)
+        return render(request, 'crm_app/company_edit.html', {'company_form': company_form})
 
 
 class CompanyDeleteView(LoginRequiredMixin, View):
@@ -85,7 +100,7 @@ class CompanyDeleteView(LoginRequiredMixin, View):
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_delete.html')
 
-    def post(self, request, company_id):
+    def post(self, company_id):
         company = Company.objects.get(pk=company_id)
         company.delete()
         return redirect('crm_app:company-list')

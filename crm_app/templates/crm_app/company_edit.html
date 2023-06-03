@@ -1,13 +1,23 @@
 {% extends 'crm_app/base.html' %}
-{% block title %}szczegóły{% endblock %}
+{% load crispy_forms_tags %}
+{% block title %}edytuj{% endblock %}
 
 {% block content %}
 
 <div class="container d-flex justify-content-center align-items-center mt-4">
-        {% if not company %}
-    <h3>Nie ma takiej firmy w bazie...</h3>
-    {% else %}
-    </div>
+        <div class="row">
+            <div class="col">
+                {% if not company %}
+            <h3>Nie ma takiej firmy w bazie...</h3>
+        {% else %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-danger">Edytuj</button>
+                </form>
+            </div>
+        </div>
 
+    </div>
 {% endif %}
 {% endblock %}
