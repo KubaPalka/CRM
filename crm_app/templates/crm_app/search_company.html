@@ -1,3 +1,39 @@
 {% extends 'crm_app/base.html' %}
 {% block title %}wyszukaj firmę{% endblock %}
 {% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+
+        <div class="row">
+            <div class="col">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-danger">Szukaj</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <br>
+        <br>
+        {% if not companies %}<h4>Brak firm spełniających kryteria</h4>{% else %}
+            <ul style="list-style: none">
+                <li><b>Firmy spełniające kryteria: {{ no_of_companies }}</b></li>
+                <br>
+                {% for company in companies %}
+                    <li><a href="{% url 'crm_app:company-details' company_id=company.id %}">
+                        <button type="button" class="btn btn-outline-secondary">Szczegóły</button>
+                    </a><b>         {{ company.name }}</b>, NIP: {{ company.nip }}, SCORE: {{ company.score }},
+                        Przychód: {{ company.income }}, Forma prawna: {{ company.legal_form }}</li>
+                    {% empty %}
+                    <li>Brak firm</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock %}

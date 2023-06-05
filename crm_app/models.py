@@ -5,7 +5,6 @@ from .validators import validate_nip_number
 from django.utils import timezone
 
 
-
 class Company(models.Model):
     name = models.CharField(max_length=128)
     nip = models.CharField(unique=True, validators=[validate_nip_number], help_text='wpisz NIP bez myślników')
@@ -19,6 +18,7 @@ class Company(models.Model):
     description = models.TextField()
     updated = models.DateField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 

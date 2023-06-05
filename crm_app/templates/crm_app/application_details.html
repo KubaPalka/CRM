@@ -6,34 +6,35 @@
 
     <div class="container d-flex justify-content-center align-items-center mt-4">
         {% if not application %}
-    <h3>Brak wniosku w bazie.</h3>
-    {% else %}
-        <div class="row">
+            <h3>Brak wniosku w bazie.</h3>
+        {% else %}
+            <div class="row">
 
-            <ul>
-                <br>
-                <br>
-                <li><h4>Firma: {{ application.company.name }}</h4></li>
-                <li><h4>Dodał: {{ application.user.username }}</h4></li>
-                <li><h4>Numer wniosku: {{ application.app_number }}</h4></li>
-                <li><h4>Moc instalacji: {{ application.kwh_amount}} kWh</h4></li>
-                <li><h4>Rodzaj instalacji: {{ application.installation_type }}</h4></li>
-                <li><h4>Panele: {{ application.panel_type }}</h4></li>
-                <li><h4>Płatność: {{ application.payment }}</h4></li>
-                <li><h4>Status wniosku: {{ application.status }}</h4></li>
-                <li><h4>Dodano: {{ application.date_added }}</h4></li>
-                <li><h4>Ostatnia aktualizacja: {{ application.updated }}</h4></li>
-            </ul>
-        </div>
-    </div>
-    <div class="container d-flex justify-content-center align-items-center mt-4">
-        <div class="row">
+                <ul>
+                    <br>
+                    <br>
+                    <li><h4>Firma: {{ application.company.name }}</h4></li>
+                    <li><h4>Dodał: {{ application.user.username }}</h4></li>
+                    <li><h4>Numer wniosku: {{ application.app_number }}</h4></li>
+                    <li><h4>Moc instalacji: {{ application.kwh_amount }} kWh</h4></li>
+                    <li><h4>Rodzaj instalacji: {{ application.installation_type }}</h4></li>
+                    <li><h4>Panele: {{ application.panel_type }}</h4></li>
+                    <li><h4>Płatność: {{ application.payment }}</h4></li>
+                    <li><h4>Status wniosku: {{ application.status }}</h4></li>
+                    <li><h4>Dodano: {{ application.date_added }}</h4></li>
+                    <li><h4>Ostatnia aktualizacja: {{ application.updated }}</h4></li>
+                </ul>
+            </div>
+            </div>
+            <div class="container d-flex justify-content-center align-items-center mt-4">
+            <div class="row">
             <div class="col-3">
                 <a href="{% url 'crm_app:edit-application' application_id=application.id %}">
-                    <button type="submit" class="btn btn-danger">Edytuj</button></a>
+                    <button type="submit" class="btn btn-danger">Edytuj</button>
+                </a>
             </div>
 
-            {% endif %}
-    </div>
+        {% endif %}
+        </div>
 
 {% endblock %}

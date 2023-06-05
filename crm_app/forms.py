@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from . import models
-from .models import Company, Person, Application
+from .models import Company, Person, Application, LegalForm
 
 
 class LoginForm(AuthenticationForm):
@@ -48,3 +48,12 @@ class ApplicationForm(forms.ModelForm):
         labels = {'app_number': 'Numer wniosku', 'kwh_amount': 'Moc instalacji w kWh',
                   'installation_type': 'Rodzaj instalacji', 'panel_type': 'Panele',
                   'payment': 'Finansowanie', 'status': 'Status wniosku', 'update': 'Aktualizacja', 'company': 'Firma'}
+
+
+class CompanySearchForm(forms.Form):
+    name = forms.CharField(required=False, label='Nazwa firmy:')
+    nip = forms.CharField(required=False, label="NIP:")
+    score = forms.IntegerField(required=False, label="Punktacja od:")
+    income = forms.IntegerField(required=False, label='Przychód od:')
+    legal_form = forms.ModelChoiceField(queryset=LegalForm.objects.all(), empty_label='', required=False,
+                                        label='Forma prawna:')

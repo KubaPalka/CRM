@@ -8,18 +8,18 @@
             <h3>Nie ma takiej firmy w bazie...</h3>
         {% else %}
             <form method="POST">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-12">
-                    <h3>Czy na pewno chcesz skasować firmę {{ company.name }}?</h3>
-                    <div class="row">
-                        <div class="col-4"></div>
-                        <div class="col-4">
-                      <input type="submit" class="btn btn-danger" value="Potwierdź">
-                    </div>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Czy na pewno chcesz skasować firmę {{ company.name }}?</h3>
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <input type="submit" class="btn btn-danger" value="Potwierdź">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
             </form>
             </div>
         {% endif %}

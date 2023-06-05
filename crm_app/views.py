@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company, Person, Branch, Application
-from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm
+from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm, CompanySearchForm, LegalForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -72,7 +72,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CompanyEditView(View):
+class CompanyEditView(LoginRequiredMixin, View):
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -106,7 +106,26 @@ class CompanyDeleteView(LoginRequiredMixin, View):
 
 class SearchCompanyView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'crm_app/search_company.html')
+        form = CompanySearchForm(request.GET)
+        return render(request, 'crm_app/search_company.html', {'form': form})
+
+    def post(self, request):
+        form = CompanySearchForm(request.POST)
+        companies = Company.objects.all()
+        if form.is_valid():
+            search_filters = {}
+            available_filters = ('name', 'nip', 'score', 'income', 'legal_form')
+            for filter in available_filters:
+                filter_value = form.cleaned_data.get(filter)
+                if filter_value:
+                    if filter == 'legal_form':
+                        search_filters[filter] = filter_value
+                    elif filter == 'name' or filter == 'nip':
+                        search_filters[filter + '__icontains'] = filter_value
+                    else:
+                        search_filters[filter + '__gte'] = filter_value
+            companies = companies.filter(**search_filters)
+        return render(request, 'crm_app/search_company.html', {'form': form, 'companies': companies})
 
 
 class AddPersonView(LoginRequiredMixin, View):
@@ -138,8 +157,9 @@ class PersonEditView(LoginRequiredMixin, View):
                 return render(request, 'crm_app/person_edit.html', {'form': form, 'company': company,
                                                                     'persons': persons})
         except Person.DoesNotExist:
-            persons = None
-            return render(request, 'crm_app/person_edit.html', {'persons': persons})
+            return render(request, 'crm_app/person_edit.html')
+        except Company.DoesNotExist:
+            return render(request, 'crm_app/person_edit.html')
         return render(request, 'crm_app/person_edit.html')
 
     def post(self, request, company_id):
@@ -177,8 +197,11 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
 
 class ApplicationDetailsView(LoginRequiredMixin, View):
     def get(self, request, application_id):
-        application = Application.objects.get(pk=application_id)
-        return render(request, 'crm_app/application_details.html', {'application': application})
+        try:
+            application = Application.objects.get(pk=application_id)
+            return render(request, 'crm_app/application_details.html', {'application': application})
+        except Application.DoesNotExist:
+            return render(request, 'crm_app/application_details.html')
 
 
 class ApplicationEditView(LoginRequiredMixin, View):
