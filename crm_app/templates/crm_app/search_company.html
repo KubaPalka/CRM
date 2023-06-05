@@ -20,9 +20,13 @@
     <div class="container">
         <br>
         <br>
-        {% if not companies %}<h4>Brak firm spełniających kryteria</h4>{% else %}
+        {% if not companies %}
+            {% if request.method == 'POST' %}
+                <h5>Brak firm spełniających kryteria. </h5>
+            {% endif %}
+        {% else %}
             <ul style="list-style: none">
-                <li><b>Firmy spełniające kryteria: {{ no_of_companies }}</b></li>
+                <li><b>Firmy spełniające kryteria:</b></li>
                 <br>
                 {% for company in companies %}
                     <li><a href="{% url 'crm_app:company-details' company_id=company.id %}">
