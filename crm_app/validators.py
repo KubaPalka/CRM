@@ -3,6 +3,9 @@ from django.core.exceptions import ValidationError
 
 
 def validate_nip_number(nip):
+    """
+    Validates a Polish NIP (Numer Identyfikacji Podatkowej) number.
+    """
     if len(nip) != 10:
         raise ValidationError("NIP powinien mieć 10 cyfr!")
     if not nip.isdigit():

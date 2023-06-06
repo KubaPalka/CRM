@@ -16,6 +16,10 @@ from django.contrib.auth.views import PasswordChangeView
 
 
 class MainPageView(LoginRequiredMixin, View):
+    """
+    View serving the main page of a CRM
+    """
+
     def get(self, request):
         last_week = date.today() - timedelta(days=7)
         companies = Company.objects.filter(date_added__gte=last_week)
@@ -23,6 +27,10 @@ class MainPageView(LoginRequiredMixin, View):
 
 
 class CompanyListView(LoginRequiredMixin, View):
+    """
+    View serving list of companies based on very basic filter
+    """
+
     def get(self, request):
         form = SelectCompanyForm()
         return render(request, 'crm_app/company_list.html', {'form': form})
@@ -50,6 +58,10 @@ class CompanyListView(LoginRequiredMixin, View):
 
 
 class CompanyDetailsView(LoginRequiredMixin, View):
+    """
+    View serving details of chosen company
+    """
+
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -65,6 +77,9 @@ class CompanyDetailsView(LoginRequiredMixin, View):
 
 
 class CompanyCreate(LoginRequiredMixin, CreateView):
+    """
+    View that enables create new company record
+    """
     model = Company
     form_class = CompanyForm
     success_url = reverse_lazy('crm_app:company-list')
@@ -75,6 +90,10 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
 
 
 class CompanyEditView(LoginRequiredMixin, View):
+    """
+    View that enables editing chosen company
+    """
+
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -93,6 +112,10 @@ class CompanyEditView(LoginRequiredMixin, View):
 
 
 class CompanyDeleteView(LoginRequiredMixin, View):
+    """
+    View that enables delete chosen company
+    """
+
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -107,6 +130,10 @@ class CompanyDeleteView(LoginRequiredMixin, View):
 
 
 class SearchCompanyView(LoginRequiredMixin, View):
+    """
+    View that enables searching companies based on mutlitple filters
+    """
+
     def get(self, request):
         form = CompanySearchForm(request.GET)
         return render(request, 'crm_app/search_company.html', {'form': form})
@@ -131,6 +158,10 @@ class SearchCompanyView(LoginRequiredMixin, View):
 
 
 class AddPersonView(LoginRequiredMixin, View):
+    """
+    View that enables adding new employee
+    """
+
     def get(self, request, company_id):
         company = Company.objects.get(pk=company_id)
         form = PersonForm()
@@ -150,6 +181,10 @@ class AddPersonView(LoginRequiredMixin, View):
 
 
 class PersonEditView(LoginRequiredMixin, View):
+    """
+    View that enables editing person data
+    """
+
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -174,12 +209,10 @@ class PersonEditView(LoginRequiredMixin, View):
         return render(request, 'crm_app/company_details.html')
 
 
-class DataImportExportView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'crm_app/import_export.html')
-
-
 class ApplicationListView(LoginRequiredMixin, View):
+    """
+    View presenting all available applications
+    """
     def get(self, request):
         applications = Application.objects.all()
         no_of_applications = applications.count()
@@ -188,6 +221,9 @@ class ApplicationListView(LoginRequiredMixin, View):
 
 
 class ApplicationCreate(LoginRequiredMixin, CreateView):
+    """
+    View that enables adding new applications
+    """
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy('crm_app:add-application')
@@ -198,6 +234,9 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
 
 
 class ApplicationDetailsView(LoginRequiredMixin, View):
+    """
+    View serving details of chosen company
+    """
     def get(self, request, application_id):
         try:
             application = Application.objects.get(pk=application_id)
@@ -207,6 +246,9 @@ class ApplicationDetailsView(LoginRequiredMixin, View):
 
 
 class ApplicationEditView(LoginRequiredMixin, View):
+    """
+    View that enables editing application records
+    """
     def get(self, request, application_id):
         try:
             application = Application.objects.get(pk=application_id)
@@ -226,6 +268,9 @@ class ApplicationEditView(LoginRequiredMixin, View):
 
 
 def login_user_view(request):
+    """
+    Enables user login
+    """
     if request.method == 'POST':
         form = forms.LoginForm(request, request.POST)
 
@@ -245,11 +290,17 @@ def login_user_view(request):
 
 
 def logout_view(request):
+    """
+    Enables user logout
+    """
     logout(request)
     return redirect(reverse('crm_app:login'))
 
 
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """
+    View that enables change user password
+    """
     form_class = UserPasswordChangeForm
     template_name = 'crm_app/password_change.html'
     success_url = '/main'

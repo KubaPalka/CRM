@@ -8,6 +8,9 @@ from .models import Company, Person, Application, LegalForm
 
 
 class LoginForm(AuthenticationForm):
+    """
+    Form used for user authentication in based on the AuthenticationForm
+    """
     username = forms.CharField(label='Nazwa użytkownika', widget=forms.TextInput(attrs={'name': 'username'}))
     password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
 
@@ -18,6 +21,9 @@ class LoginForm(AuthenticationForm):
 
 
 class SelectCompanyForm(forms.Form):
+    """
+    Form used for basic companies selection
+    """
     OPTIONS = (
         (1, 'Wszystkie'),
         (2, 'SUSI'),
@@ -27,6 +33,9 @@ class SelectCompanyForm(forms.Form):
 
 
 class CompanyForm(forms.ModelForm):
+    """
+    Form used for creating and editing records base on Company model
+    """
     class Meta:
         model = Company
         fields = ['name', 'nip', 'address', 'url_site', 'score', 'income', 'legal_form', 'description']
@@ -35,6 +44,9 @@ class CompanyForm(forms.ModelForm):
 
 
 class PersonForm(forms.ModelForm):
+    """
+    Form used for creating and editing records base on Person model
+    """
     class Meta:
         model = Person
         fields = {'full_name', 'email', 'phone'}
@@ -42,6 +54,9 @@ class PersonForm(forms.ModelForm):
 
 
 class ApplicationForm(forms.ModelForm):
+    """
+    Form used for creating and editing records base on Application model
+    """
     class Meta:
         model = Application
         fields = {'app_number', 'kwh_amount', 'installation_type', 'panel_type', 'payment', 'status',
@@ -52,6 +67,9 @@ class ApplicationForm(forms.ModelForm):
 
 
 class CompanySearchForm(forms.Form):
+    """
+    Form used for searching companies based on mutlitple filters
+    """
     name = forms.CharField(required=False, label='Nazwa firmy:')
     nip = forms.CharField(required=False, label="NIP:")
     score = forms.IntegerField(required=False, label="Punktacja od:")
@@ -61,6 +79,9 @@ class CompanySearchForm(forms.Form):
 
 
 class UserPasswordChangeForm(PasswordChangeForm):
+    """
+    Form used for user password change based od PasswordChangeForm
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['old_password'].label = "Stare hasło"

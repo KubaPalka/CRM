@@ -6,6 +6,9 @@ from django.utils import timezone
 
 
 class Company(models.Model):
+    """
+    Represents a model for storing information about a company
+    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128)
     nip = models.CharField(unique=True, validators=[validate_nip_number], help_text='wpisz NIP bez myślników')
@@ -25,6 +28,9 @@ class Company(models.Model):
 
 
 class Person(models.Model):
+    """
+    Represents a model for storing information about a companies' employees
+    """
     full_name = models.CharField(max_length=64)
     email = models.EmailField(blank=True, default=None)
     phone = models.CharField(max_length=16)
@@ -35,6 +41,9 @@ class Person(models.Model):
 
 
 class Branch(models.Model):
+    """
+    Represents a model for storing information about branches connected with companies
+    """
     OPTIONS = (
         ('administracja', 'administracja'),
         ('budownictwo', 'budownictwo'),
@@ -55,6 +64,9 @@ class Branch(models.Model):
 
 
 class LegalForm(models.Model):
+    """
+    Represents a model for storing information about company's legal form
+    """
     OPTIONS = (
         ('spółka akcyjna', 'spółka akcyjna'),
         ('spółka z o.o.', 'spółka z o.o.'),
@@ -74,6 +86,9 @@ class LegalForm(models.Model):
 
 
 class Application(models.Model):
+    """
+    Represents a model for storing information about a company's active applications for a solar installation
+    """
     OPTIONS = (
         ('Seraphim', 'Seraphim'),
         ('JA solar', 'JA solar'),

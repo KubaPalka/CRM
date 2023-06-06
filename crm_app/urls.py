@@ -21,6 +21,5 @@ urlpatterns = [
          name='application-details'),
     path('add_application/', views.ApplicationCreate.as_view(), name='add-application'),
     path('edit_application/<int:application_id>/', views.ApplicationEditView.as_view(), name='edit-application'),
-    path('import_export/', views.DataImportExportView.as_view(), name='import-export'),
 
 ]
