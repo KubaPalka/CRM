@@ -8,7 +8,7 @@ from crm_app import forms
 from .models import Company, Person, Branch, Application
 from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm, CompanySearchForm, LegalForm, \
     UserPasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, FormView
 from datetime import date, timedelta
@@ -100,7 +100,7 @@ class CompanyDeleteView(LoginRequiredMixin, View):
         except Company.DoesNotExist:
             return render(request, 'crm_app/company_delete.html')
 
-    def post(self, company_id):
+    def post(self, request, company_id):
         company = Company.objects.get(pk=company_id)
         company.delete()
         return redirect('crm_app:company-list')
@@ -252,11 +252,9 @@ def logout_view(request):
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = UserPasswordChangeForm
     template_name = 'crm_app/password_change.html'
-    messages.success(self.request, 'Hasło zostało pomyślnie zmienione.')
     success_url = '/main'
 
     def form_valid(self, form):
         form.save()
         messages.success(self.request, 'Hasło zostało pomyślnie zmienione.')
         return super().form_valid(form)
-
