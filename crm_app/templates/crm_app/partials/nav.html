@@ -31,9 +31,6 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'crm_app:add-application' %}">Dodaj wniosek</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'crm_app:import-export' %}">Import/Export</a>
-                </li>
             </ul>
             {% if user.is_authenticated %}
                 <ul class="navbar-nav ms-auto">
@@ -41,12 +38,14 @@
                 <li class="nav.item">
                     <a class="nav-link text-white" href="{% url 'crm_app:logout' %}">WYLOGUJ SIĘ</a>
                 </li>
+                <li>
+                    <a class="nav-link text-white" href="{% url 'crm_app:change-password' %}">Zmień hasło</a>
+                </li>
 
             {% else %}
                 <li class="nav.item">
                     <a class="nav-link text-white" href="{% url 'crm_app:login' %}">ZALOGUJ SIĘ</a>
                 </li>
-
             {% endif %}
 
             </ul>

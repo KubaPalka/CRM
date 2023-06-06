@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth import password_validation
 
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
 from . import models
 from .models import Company, Person, Application, LegalForm
@@ -57,3 +58,13 @@ class CompanySearchForm(forms.Form):
     income = forms.IntegerField(required=False, label='Przychód od:')
     legal_form = forms.ModelChoiceField(queryset=LegalForm.objects.all(), empty_label='', required=False,
                                         label='Forma prawna:')
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].label = "Stare hasło"
+        self.fields['new_password1'].label = "Nowe hasło"
+        self.fields['new_password2'].label = "Potwierdź nowe hasło"
+    error_messages = {'password_mismatch': 'Podane hasła muszą być takie same!',
+                      'password_incorrect': 'Aktualne hasło jest nieprawidłowe.'}

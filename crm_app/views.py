@@ -6,11 +6,13 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from crm_app import forms
 from .models import Company, Person, Branch, Application
-from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm, CompanySearchForm, LegalForm
+from .forms import SelectCompanyForm, CompanyForm, PersonForm, ApplicationForm, CompanySearchForm, LegalForm, \
+    UserPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, FormView
 from datetime import date, timedelta
+from django.contrib.auth.views import PasswordChangeView
 
 
 class MainPageView(LoginRequiredMixin, View):
@@ -245,3 +247,16 @@ def login_user_view(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('crm_app:login'))
+
+
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    template_name = 'crm_app/password_change.html'
+    messages.success(self.request, 'Hasło zostało pomyślnie zmienione.')
+    success_url = '/main'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Hasło zostało pomyślnie zmienione.')
+        return super().form_valid(form)
+
