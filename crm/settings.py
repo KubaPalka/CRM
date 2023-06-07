@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'crm_app',
     'import_export',
+
 ]
 
 MIDDLEWARE = [
