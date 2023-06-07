@@ -22,10 +22,10 @@
         <br>
         <br>
         {% if companies %}
-            <ul>
+            <ul style="list-style: none">
                 <li><b>Liczba firm: {{ no_of_companies }}</b></li>
                 <br>
-                {% for company in companies.all %}
+                {% for company in companies %}
                     <li><a href="{% url 'crm_app:company-details' company_id=company.id %}">
                         <button type="button" class="btn btn-outline-secondary">Szczegóły</button>
                     </a><b>         {{ company.name }}</b>, NIP: {{ company.nip }}, SCORE: {{ company.score }},

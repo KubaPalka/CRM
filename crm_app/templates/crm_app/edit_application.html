@@ -1,0 +1,23 @@
+{% extends 'crm_app/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}edytuj wniosek{% endblock %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+        {% if not application %}
+            <h3>Brak wniosku w bazie...</h3>
+        {% else %}
+            <div class="row">
+                <div class="col">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ application_form|crispy }}
+                        <button type="submit" class="btn btn-danger">Edytuj</button>
+                    </form>
+                </div>
+            </div>
+
+            </div>
+        {% endif %}
+{% endblock %}

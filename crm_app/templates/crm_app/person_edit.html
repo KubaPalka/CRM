@@ -1,0 +1,25 @@
+{% extends 'crm_app/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}edytuj kontakt{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center mt-4">
+        <div class="row">
+            <div class="col">
+                {% if not persons %}
+            <h3>Brak osoby do edycji...</h3>
+        {% else %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {% for person in persons %}
+                    {{ form|crispy }}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-danger">Edytuj</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endif %}
+{% endblock %}

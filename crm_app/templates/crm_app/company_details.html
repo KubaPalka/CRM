@@ -1,37 +1,64 @@
 {% extends 'crm_app/base.html' %}
-{% block title %}szczegóły{% endblock %}
+{% block title %}szczegóły firmy{% endblock %}
 
 {% block content %}
 
-    <div class="container d-flex justify-content-center align-items-center mt-4">
-        <div class="row">
 
-            <ul>
-                <br>
-                <br>
-
-                <li><h4>Nazwa: {{ company.name }}</h4></li>
-                <li><h4>NIP: {{ company.nip }}</h4></li>
-                <li><h4>SUSI score: {{ company.score }}</h4></li>
-                <li><h4>Roczny przychód: {{ company.income }}</h4></li>
-                <li><h4>Adres: {{ company.address }}</h4></li>
-                <li><h4>WWW: <a href="{{ company.url_site }}">{{ company.url_site }}</a></h4></li>
-                <li><h4>Dodano: {{ company.date_added }}</h4></li>
-                <li><h4>Ostatnia aktualizacja: {{ company.updated }}</h4></li>
-                <li><h4>Opis: {{ company.description }}</h4></li>
-                <br>
-            </ul>
-        </div>
-    </div>
     <div class="container d-flex justify-content-center align-items-center mt-4">
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-danger">Edytuj</button>
+        {% if not company %}
+            <h3>Nie ma takiej firmy w bazie...</h3>
+        {% else %}
+            <div class="row">
+
+                <ul>
+                    <br>
+                    <br>
+
+                    <li><h4>Nazwa: {{ company.name }}</h4></li>
+                    <li><h4>NIP: {{ company.nip }}</h4></li>
+                    <li><h4>Forma prawna: {{ company.legal_form }}</h4></li>
+                    <li><h4>SUSI score: {{ company.score }}</h4></li>
+                    <li><h4>Roczny przychód: {{ company.income }}</h4></li>
+                    <li><h4>Adres: {{ company.address }}</h4></li>
+                    <li><h4>WWW: <a href="{{ company.url_site }}">{{ company.url_site }}</a></h4></li>
+                    <li><h4>Dodano: {{ company.date_added }}</h4></li>
+                    <li><h4>Ostatnia aktualizacja: {{ company.updated }}</h4></li>
+                    <li><h4>Opis: {{ company.description }}</h4></li>
+
+                    <li><h4>Osoba do kontaktu: {% if not persons %}
+                        {% else %}{% for person in persons %}{{ person.full_name }}, mail: {{ person.email }},
+                            telefon: {{ person.phone }}, {% endfor %}{% endif %}</h4></li>
+
+                    <li><h4>Branża: {% for branch in branches %}{{ branch.name }}, {% endfor %}</h4></li>
+                    <br>
+                    {{ edit_msg }}
+                </ul>
             </div>
-            <div class="col-6">
-                <button type="submit" class="btn btn-danger">Usuń</button>
             </div>
+            <div class="container d-flex justify-content-center align-items-center mt-4">
+            <div class="row">
+                <div class="col-3">
+                    <a href="{% url 'crm_app:edit-company' company_id=company.id %}">
+                        <button type="submit" class="btn btn-danger">Edytuj</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'crm_app:add-person' company_id=company.id %}">
+                        <button type="submit" class="btn btn-danger">Dodaj kontakt</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'crm_app:edit-person' company_id=company.id %}">
+                        <button type="submit" class="btn btn-danger">Edytuj kontakt</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'crm_app:delete-company' company_id=company.id %}">
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
         </div>
-    </div>
 
 {% endblock %}
