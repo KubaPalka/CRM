@@ -2,6 +2,7 @@ import pytest
 from django.core.exceptions import ValidationError
 from crm_app.validators import validate_nip_number
 
+
 def test_validate_nip_number():
     try:
         validate_nip_number('7352255837')
@@ -13,6 +14,3 @@ def test_validate_nip_number():
     with pytest.raises(ValidationError) as e:
         validate_nip_number('123')
     assert str(e.value) == "['NIP powinien mieć 10 cyfr!']"
-
-
-

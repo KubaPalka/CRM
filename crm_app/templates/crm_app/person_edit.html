@@ -12,8 +12,8 @@
         {% else %}
                 <form action="" method="POST">
                     {% csrf_token %}
-                    {% for person in persons %}
-                    {{ form|crispy }}
+                    {% for form in forms %}
+                        {{ form|crispy }}
                     {% endfor %}
                     <button type="submit" class="btn btn-danger">Edytuj</button>
                 </form>

@@ -111,11 +111,11 @@ class CompanyEditView(LoginRequiredMixin, View):
         return render(request, 'crm_app/company_edit.html', {'company_form': company_form})
 
 
-class CompanyDeleteView(LoginRequiredMixin, View):
+class CompanyDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     """
     View that enables delete chosen company
     """
-
+    permission_required = 'crm_app.delete_company'
     def get(self, request, company_id):
         try:
             company = Company.objects.get(pk=company_id)
@@ -189,15 +189,14 @@ class PersonEditView(LoginRequiredMixin, View):
         try:
             company = Company.objects.get(pk=company_id)
             persons = Person.objects.filter(company_id=company_id)
+            forms = []
             for person in persons:
                 form = PersonForm(instance=person)
-                return render(request, 'crm_app/person_edit.html', {'form': form, 'company': company,
-                                                                    'persons': persons})
-        except Person.DoesNotExist:
+                forms.append(form)
+            return render(request, 'crm_app/person_edit.html', {'forms': forms, 'company': company,
+                                                                'persons': persons})
+        except (Person.DoesNotExist, Company.DoesNotExist):
             return render(request, 'crm_app/person_edit.html')
-        except Company.DoesNotExist:
-            return render(request, 'crm_app/person_edit.html')
-        return render(request, 'crm_app/person_edit.html')
 
     def post(self, request, company_id):
         persons = Person.objects.filter(company_id=company_id)
@@ -213,6 +212,7 @@ class ApplicationListView(LoginRequiredMixin, View):
     """
     View presenting all available applications
     """
+
     def get(self, request):
         applications = Application.objects.all()
         no_of_applications = applications.count()
@@ -237,6 +237,7 @@ class ApplicationDetailsView(LoginRequiredMixin, View):
     """
     View serving details of chosen company
     """
+
     def get(self, request, application_id):
         try:
             application = Application.objects.get(pk=application_id)
@@ -249,6 +250,7 @@ class ApplicationEditView(LoginRequiredMixin, View):
     """
     View that enables editing application records
     """
+
     def get(self, request, application_id):
         try:
             application = Application.objects.get(pk=application_id)
